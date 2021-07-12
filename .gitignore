@@ -1,0 +1,6 @@
+# Mac specific
+.DS_STORE
+
+# I name my venv virtual. Don't judge me. At least I don't call it cyber.
+__pycache__/
+virtual/
