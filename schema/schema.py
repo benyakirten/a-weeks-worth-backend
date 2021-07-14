@@ -6,6 +6,7 @@ from .queries import Query as OtherQuery
 from .mutations.individual_mutation import Mutation as IndividualMutation
 from .mutations.recipe_mutation import Mutation as RecipeMutation
 from .mutations.group_mutation import Mutation as GroupMutation
+from .mutations.other_mutation import Mutation as OtherMutation
 
 class Query(UserQuery, MeQuery, OtherQuery, graphene.ObjectType):
     pass
@@ -21,7 +22,14 @@ class AuthMutation(graphene.ObjectType):
     password_reset = mutations.PasswordReset.Field()
     password_change = mutations.PasswordChange.Field()
 
-class Mutation(AuthMutation, GroupMutation, IndividualMutation, RecipeMutation, graphene.ObjectType):
+class Mutation(
+        AuthMutation,
+        OtherMutation,
+        GroupMutation,
+        IndividualMutation,
+        RecipeMutation,
+        graphene.ObjectType
+    ):
     pass
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

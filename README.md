@@ -34,6 +34,7 @@ Requests to join a group (those made for the individual, those received for the 
 > Note: I used Postgres for the database. Django config can take a variety of databases, including MongoDB. The Python packages/configuration for each of them can be quite different.
 > Note: There's an email backend too. I used SendGrid, and any sort of implementation will take a sever amount of customization so I'm not going to include the details on this page. I will not include the SendGrid package, either, on the list to install below, but it can be found in the requirements.txt file.
 > Note: Read the docs for django-graphql-auth for details about how to customize email templates. It's not particularly hard, but keep in mind that email supports little html/css, especially the cool stuff (for a good reason).
+> 5. MY_EMAIL_ADDRESS if you want to use the messageMe mutation (cf mutations)
 3. Open a terminal in the main folder and install the following dependencies:
 ```
 django
@@ -330,10 +331,18 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 >> * Effect: attempt to find group by ID. Logged in user's individual will be removed from the group and the group will be removed from individual's groups.
 >> * Returns: {individual: IndividualType}
 
+4. Other
+> 1. messageMe
+>> * Variables
+>> message: String
+>> name: String (optional)
+>> * Effect: sends an email to the address at the environment variable MY_EMAIL_ADDRESS with the message provided. User's email is in the email title
+>> * Returns: {success: Boolean}
+
 ## Planned Changes:
-* Add mutation for contact emails
 * Change types to nodes with Relay
 
 ## Changelog:
 1. 7/11/2021: Initial version of the backend
 2. 7/13/2021: Added testing
+3. 7/13/2021: I just added the message me mutation. It was simple.
