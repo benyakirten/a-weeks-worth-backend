@@ -190,6 +190,9 @@ class LeaveGroup(graphene.Mutation):
             raise Exception("Group and/or individual ID cannot be found")
 
         individual = info.context.user.individual
+        if individual not in group.members.all() or group not in individual.groups.all():
+            raise Exception("User cannot leave group it is not in")
+
         individual.groups.remove(group)
 
         # If a group has lost its last member, delete it

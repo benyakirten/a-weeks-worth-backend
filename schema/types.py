@@ -13,6 +13,7 @@ from aww.models import (
     Recipe
 )
 
+# *** Query Types ***
 # Recipe
 class RecipeStepType(DjangoObjectType):
     """
@@ -152,7 +153,7 @@ class IndividualType(DjangoObjectType):
         return self.groups.all()
 
     def resolve_requests(self, info):
-        return [{'name': group.name, 'id': group.id} for group in self.group_requests.all()]
+        return self.group_requests.all()
 
     def resolve_email(self, info):
         return self.user.email
@@ -160,6 +161,30 @@ class IndividualType(DjangoObjectType):
     def resolve_username(self, info):
         return self.user.username
 
+class LimitedIndividualType(graphene.ObjectType):
+    """
+    An individual type that only gives its id, groups, email and username.
+    Used only in a superuser's query that gets all individuals. If recipe or
+    meal information is needed, it can be accessed in the Django admin panel.
+    """
+    class Meta:
+        model = Individual
+        fields = ('id',)
+
+    groups = graphene.List(GroupsType)
+    email = graphene.String()
+    username = graphene.String()
+
+    def resolve_groups(self, info):
+        return self.groups.all()
+
+    def resolve_email(self, info):
+        return self.user.email
+
+    def resolve_username(self, info):
+        return self.user.username
+
+# *** Input Types ***
 class IngredientInputType(graphene.InputObjectType):
     """Input type used to create an ingredient or shopping item"""
     name = graphene.String(required=True)

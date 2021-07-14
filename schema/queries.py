@@ -14,31 +14,9 @@ from .types import (
     GroupsType,
     IndividualShoppingItemType,
     IndividualMealType,
-    IndividualType
+    IndividualType,
+    LimitedIndividualType
 )
-
-class LimitedIndividualType(graphene.ObjectType):
-    """
-    An individual type that only gives its id, groups, email and username.
-    Used only in a superuser's query that gets all individuals. If recipe or
-    meal information is needed, it can be accessed in the Django admin panel.
-    """
-    class Meta:
-        model = Individual
-        fields = ('id',)
-
-    groups = graphene.List(GroupType)
-    email = graphene.String()
-    username = graphene.String()
-
-    def resolve_groups(self, info):
-        return self.groups.all()
-
-    def resolve_email(self, info):
-        return self.user.email
-
-    def resolve_username(self, info):
-        return self.user.username
 
 class Query(graphene.ObjectType):
     recipes = DjangoListField(RecipeType)

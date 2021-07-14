@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -154,10 +155,12 @@ GRAPHQL_JWT = {
     'JWT_ALLOW_ANY_CLASSES': [
         'graphql_auth.mutations.Register',
         'graphql_auth.mutations.VerifyAccount',
-        'graphql_auth.mutations.ObtainJSONWebToken',
+        'graphql_auth.mutations.ObtainJSONWebToken'
     ],
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
+    'JWT_EXPIRATION_DELTA': timedelta(hours=2)
+
 }
 
 GRAPHQL_AUTH = {
@@ -169,6 +172,13 @@ GRAPHQL_AUTH = {
 # but instead capture their content in the console
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# To see a copy of what the email will look like, uncommen the following two lines:
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = 'email/'
+
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+SENDGRID_TRACK_EMAIL_OPENS = False
+SENDGRID_TRACK_CLICKS_HTML = False
+SENDGRID_TRACK_CLICKS_PLAIN = False

@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 import uuid
 
 # ********* BASE/ABSTRACT CLASSES *********
-
-
 class BaseIngredient(models.Model):
     class Meta:
         abstract = True
@@ -54,8 +52,6 @@ class BaseMeal(models.Model):
         return f"Meal: {self.text} for {self.day} at {self.time}({self.id})"
 
 # ********* RECIPE *********
-
-
 class RecipeIngredient(BaseIngredient):
     recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE)
 
@@ -65,6 +61,9 @@ class RecipeStep(models.Model):
     order = models.IntegerField()
     recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['order']
+
     def __str__(self):
         return self.step
 
@@ -72,15 +71,13 @@ class RecipeStep(models.Model):
 class Recipe(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200, unique=True)
-    photo = models.CharField(max_length=254, blank=True)
-    url = models.TextField(unique=True, blank=True)
+    photo = models.URLField(max_length=300, blank=True)
+    url = models.URLField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
 
 # ********* GROUP *********
-
-
 class GroupShoppingItem(BaseIngredient):
     group = models.ForeignKey('Group', on_delete=models.CASCADE)
 
