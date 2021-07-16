@@ -14,6 +14,8 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         Individual.objects.create(user=instance)
 
+# It seemed easier to resolve this here
+# that urls have to be unique if they're not blank
 @receiver(pre_save, sender=Recipe)
 def url_unique_if_exists(sender, instance, **kwargs):
     if instance.url:

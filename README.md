@@ -346,3 +346,4 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 1. 7/11/2021: Initial version of the backend
 2. 7/13/2021: Added testing
 3. 7/13/2021: I just added the message me mutation. It was simple.
+4. 7/16/2021: Prep for deploy to Heroku

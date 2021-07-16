@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 from datetime import timedelta
 
+import django_heroku
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("AM_I_RUNNING_ON_MY_HOME_COMPUTER") == 'true'
 
 ALLOWED_HOSTS = []
 
@@ -183,3 +185,5 @@ SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 SENDGRID_TRACK_EMAIL_OPENS = False
 SENDGRID_TRACK_CLICKS_HTML = False
 SENDGRID_TRACK_CLICKS_PLAIN = False
+
+django_heroku.settings(locals())

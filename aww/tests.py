@@ -49,6 +49,7 @@ class RecipeTest(TestCase):
         with self.assertRaises(IntegrityError):
             test2 = Recipe.objects.create(name="Test Recipe2", url="https://www.google.com")
 
+# User is tested because it is separate from Individual
 class UserTest(TestCase):
     def setUp(self):
         super().setUp()
@@ -57,6 +58,7 @@ class UserTest(TestCase):
     def test_corresponding_individual(self):
         """
         Tests that an individual is created when a new user is instantiated
+        cf signals.py
         """
         test_user = get_user_model().objects.get(email="test@test.com")
 
