@@ -4,10 +4,6 @@ import graphene
 from graphql_jwt.decorators import login_required
 
 from aww.models import (
-    Group,
-    IndividualShoppingItem,
-    IndividualMeal,
-    Individual,
     RecipeIngredient,
     RecipeStep,
     Recipe
@@ -36,10 +32,9 @@ class CreateRecipe(graphene.Mutation):
 
     @classmethod
     @login_required
-    def mutate(cls, root, info, name, photo="", url="", ingredients=[], steps=[]):
+    def mutate(cls, root, info, name, photo="", url="", ingredients=[], steps = []):
         if len(ingredients) > 150:
             raise Exception("A recipe may only have 150 ingredients")
-
         if len(steps) > 200:
             raise Exception("A recipe may only have 200 steps")
 
@@ -59,11 +54,16 @@ class CreateRecipe(graphene.Mutation):
                     unit=i.unit
                 )
         if steps:
-            for i in steps:
-                recipe.recipestep_set.create(
-                    step=i.step,
-                    order=i.order
-                )
+            for step in steps:
+                if step.order:
+                    recipe.recipestep_set.create(
+                        step=step.step,
+                        order=step.order
+                    )
+                else:
+                    recipe.recipeste_set.create(
+                        step=step.step
+                    )
         return CreateRecipe(recipe=recipe)
 
 
@@ -118,13 +118,22 @@ class UpdateRecipe(graphene.Mutation):
                 recipe.recipeingredient_set.create(
                     name=ing.name, quantity=ing.quantity, unit=ing.unit)
 
-        # Process is more or less the same for steps
+        # Process is more or less the same for ingredients
         if steps:
             queryset = RecipeStep.objects.filter(recipe=recipe)
             for step in queryset:
                 step.delete()
             for step in steps:
-                recipe.recipestep_set.create(step=step.step, order=step.order)
+                if step.order:
+                    recipe.recipestep_set.create(
+                        step=step.step,
+                        order=step.order
+                    )
+                else:
+                    recipe.recipestep_set.create(
+                        step=step.step
+                    )
+
         return UpdateRecipe(recipe=recipe)
 
 

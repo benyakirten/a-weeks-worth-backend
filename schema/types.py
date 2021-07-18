@@ -192,11 +192,15 @@ class IngredientInputType(graphene.InputObjectType):
     unit = graphene.String(required=True)
 
 
+# I'd like it to be a union of either 'Test Step 1' or {step: 'Test Step 1', order: 1}
+# But it looks like a list in graphene can't contain union types
+# Which makes it so if you want to do an unordered list, you're still going to have to
+# specify 'step' even though it's fairly redundant - also makes things fairly obnoxious
+# On the front end it will involve mapping step to { step: step }
 class RecipeStepInputType(graphene.InputObjectType):
     """Input type to create a recipe prep step"""
     step = graphene.String(required=True)
-    order = graphene.Int(required=True)
-
+    order = graphene.Int(required=False)
 
 class Day(graphene.Enum):
     """Enum for the day of the week, values corresponding to what is expected by Django for the database"""

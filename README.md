@@ -209,7 +209,7 @@ NOTE: The values of the enums correspond with the values Django is expecting to 
 
 ##### RecipeStepInputType:
 1. step: String
-2. order: Integer
+2. order: Integer (optional)
 
 ##### MealInputType:
 1. text: String
@@ -347,3 +347,13 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 2. 7/13/2021: Added testing
 3. 7/13/2021: I just added the message me mutation. It was simple.
 4. 7/16/2021: Prep for deploy to Heroku
+5. 7/18/2021: Changes are the following:
+> 1. I corrected update recipe to not fail if the recipe has a url (no idea how my tests didn't cover that, but there is an explciitly a test for that now).
+> 2. I added a few steps for validation that I'd previously thought to leave to the frontend, but it makes much more sense to do validation on the server side (as well). The changes are the following:
+>> 1. Making sure that a recipe cannot change its URL on update
+>> 2. Making sure that a meal has to have a unique time and day for each group or individual
+> 3. I added a check that recipe steps are >= 1
+> 4. Alongside that, I allowed recipe steps to not give their order. If it is left blank, the order will be the next available number in sequence, i.e.:
+>> 1. Current step order: 1, 2, 3 - new step inserted at step 4
+>> 2. Current step order: 2, 4, 6 - new step inserted at step 1
+>> 3. Current step order: 1, 2, 5 - new step inserted at step 3
