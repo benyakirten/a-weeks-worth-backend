@@ -184,7 +184,7 @@ GRAPHQL_AUTH = {
     'ALLOW_DELETE_ACCOUNT': True,
     'EMAIL_FROM': os.getenv("SENDGRID_EMAIL_FROM"),
     'EMAIL_TEMPLATE_VARIABLES': {
-        'FRONTEND_DOMAIN': 'http://localhost:4200'
+        'FRONTEND_DOMAIN': 'https://aww-frontend.web.app'
     }
 }
 
