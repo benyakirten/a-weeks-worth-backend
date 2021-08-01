@@ -13,8 +13,6 @@ class MessageMe(graphene.Mutation):
     @classmethod
     @login_required
     def mutate(cls, root, info, message):
-        # print(os.environ.get('SENDGRID_EMAIL_FROM'))
-        # print(os.environ.get('MY_EMAIL_ADDRESS'))
         emails_sent = send_mail(
             f'{info.context.user.email} has sent you a message from A Week\'s Worth',
             message,

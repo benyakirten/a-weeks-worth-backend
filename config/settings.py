@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'corsheaders',
     'graphene_django',
     'graphql_auth',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
@@ -54,14 +55,17 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'config.urls'
 
@@ -161,19 +165,27 @@ AUTHENTICATION_BACKENDS = [
 
 GRAPHQL_JWT = {
     'JWT_ALLOW_ANY_CLASSES': [
-        'graphql_auth.mutations.Register',
+        'graphql_auth.mutations.Register',  
         'graphql_auth.mutations.VerifyAccount',
-        'graphql_auth.mutations.ObtainJSONWebToken'
+        'graphql_auth.mutations.ResendActivationEmail',
+        'graphql_auth.mutations.SendPasswordResetEmail',
+        'graphql_auth.mutations.PasswordReset',
+        'graphql_auth.mutations.ObtainJSONWebToken',
+        'graphql_auth.mutations.VerifyToken',
+        'graphql_auth.mutations.RefreshToken'
     ],
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LONG_RUNNING_REFRESH_TOKEN': True,
-    'JWT_EXPIRATION_DELTA': timedelta(hours=2)
-
+    'JWT_EXPIRATION_DELTA': timedelta(hours=2),
+    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=14)
 }
 
 GRAPHQL_AUTH = {
     'ALLOW_DELETE_ACCOUNT': True,
-    'EMAIL_FROM': os.getenv("SENDGRID_EMAIL_FROM")
+    'EMAIL_FROM': os.getenv("SENDGRID_EMAIL_FROM"),
+    'EMAIL_TEMPLATE_VARIABLES': {
+        'FRONTEND_DOMAIN': 'http://localhost:4200'
+    }
 }
 
 # Uncomment the following line to not send emails

@@ -7,7 +7,7 @@ from graphql_jwt.shortcuts import get_token
 
 from aww.models import Individual, Group
 
-class RecipeMutationTest(GraphQLTestCase):
+class IndividualMutationTest(GraphQLTestCase):
     def setUp(self):
         super().setUp()
         get_user_model().objects.create_user(username="Test User", email="individualmutation@test.com", password="testpassword")
@@ -56,14 +56,14 @@ class RecipeMutationTest(GraphQLTestCase):
         )
         self.assertResponseHasErrors(res)
     
-    def test_update_individual_not_works_without_authentication(self):
+    def test_update_individual_works_with_authentication(self):
         """
         Tests updateIndividual mutation with normal parameters
         """
         res = self.query(
             '''
-                mutation updateIndividual($id: ID!, $shoppingList: [IngredientInputType!]) {
-                    updateIndividual(id: $id, shoppingList: $shoppingList) {
+                mutation updateIndividual($shoppingList: [IngredientInputType!]) {
+                    updateIndividual(shoppingList: $shoppingList) {
                         individual {
                             id
                             shoppingList {
@@ -82,7 +82,6 @@ class RecipeMutationTest(GraphQLTestCase):
             ''',
             op_name='updateIndividual',
             variables={
-                'id': str(self.individual.id),
                 'shoppingList': [
                     {
                         'name': 'Test Ingredient 1',
@@ -252,12 +251,13 @@ class RecipeMutationTest(GraphQLTestCase):
     def test_complete_process(self):
         """
         Tests the following process:
-        1. User requests access to group
-        2. User cancels request
-        3. User requests access again
-        4. User 2 accepts request
-        5. User leaves group
+        1. Individual requests access to group
+        2. Individual cancels request
+        3. Individual requests access again
+        4. Individual 2 accepts request
+        5. Individual leaves group
         """
+
         res_req_1 = self.query(
             '''
                 mutation requestAccess($id: ID!) {

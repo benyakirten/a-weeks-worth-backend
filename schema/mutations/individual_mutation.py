@@ -24,20 +24,15 @@ class UpdateIndividual(graphene.Mutation):
     This mutation will delete all current shopping list items or meals if either of those values are provided.
     """
     class Arguments:
-        id = graphene.ID(required=True)
         shopping_list = graphene.List(IngredientInputType, required=False)
         meals = graphene.List(MealInputType, required=False)
 
     individual = graphene.Field(IndividualType)
 
     @classmethod
-    def mutate(cls, root, info, id, shopping_list=[], meals=[]):
-        try:
-            individual = Individual.objects.get(id=id)
-        except:
-            raise Exception("No individual found corresponding to that ID")
-        if individual.user != info.context.user:
-            raise Exception("Unable to update another user's individual")
+    @login_required
+    def mutate(cls, root, info, shopping_list=[], meals=[]):
+        individual = info.context.user.individual
         if shopping_list:
             queryset = IndividualShoppingItem.objects.filter(
                 individual=individual)

@@ -91,7 +91,7 @@ NOTE: Because these notes are so detailed for so simple an application, comments
 2. RecipeStep
 > * id: UUID v4
 > * step: TextField (text of the step)
-> * order: IntegerField (to designate what order the step comes in -- set explicitly because an AUTO INCREMENT field wouldn't work well for updating/substiting the steps as come with the updateRecipe mutation below)
+> * order: IntegerField - if it is not provided, a signal function in aww.signal will provide one based the next available integer starting from 1.
 3. Recipe:
 > * id: UUID v4
 > * name: CharField (max 200, unique)
@@ -160,7 +160,7 @@ NOTE: Because these notes are so detailed for so simple an application, comments
 * Model: Group
 * Fields: id, name
 * Resolved Fields:
-> 1. members: returns the emails of all the users in the group
+> 1. members: returns the usernames of all the users in the group
 > 2. shopping_list: returns the groupshoppingitem_set on the corresponding Group
 > 3. meals: returns the groupmeals_set on the corresponding Group
 
@@ -331,7 +331,14 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 >> * Effect: attempt to find group by ID. Logged in user's individual will be removed from the group and the group will be removed from individual's groups.
 >> * Returns: {individual: IndividualType}
 
-4. Other
+4. User
+> 1. updateDetails
+>> * Variables
+>> email: String (optional)
+>> username: String (optional)
+>> * Effect: Updates the currently authenticated user's email and/or username as long as at least one is provided and the values are valid according to RegeX. The email uses the RC5322 standard, and username uses the standards for a Django username (max 150 characters, contains only letters/words/select special characters).
+
+5. Other
 > 1. messageMe
 >> * Variables
 >> message: String
@@ -357,3 +364,5 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 >> 1. Current step order: 1, 2, 3 - new step inserted at step 4
 >> 2. Current step order: 2, 4, 6 - new step inserted at step 1
 >> 3. Current step order: 1, 2, 5 - new step inserted at step 3
+6. 7/22/2021: I forgot to set CORS headers. I used the django-cors-headers package.
+7. 7/25/2021: I added a mutation (with corresponding tests) to allow a user to update their username and email address. I also changed it so group members are now identified by their usernames, not their email addresses. After this mutation changes the user details, a new token has to be issued.

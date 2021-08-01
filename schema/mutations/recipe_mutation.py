@@ -61,7 +61,7 @@ class CreateRecipe(graphene.Mutation):
                         order=step.order
                     )
                 else:
-                    recipe.recipeste_set.create(
+                    recipe.recipestep_set.create(
                         step=step.step
                     )
         return CreateRecipe(recipe=recipe)

@@ -83,7 +83,7 @@ class GroupsType(DjangoObjectType):
 
     def resolve_members(self, info):
         _members = self.members.all()
-        return [member.user.email for member in _members]
+        return [member.user.username for member in _members]
 
 
 class GroupType(DjangoObjectType):
@@ -99,10 +99,10 @@ class GroupType(DjangoObjectType):
 
     def resolve_members(self, info):
         _members = self.members.all()
-        return [member.user.email for member in _members]
+        return [member.user.username for member in _members]
 
     def resolve_requests(self, info):
-        return [{'name': individual.user.email, 'id': individual.id} for individual in self.join_requests.all()]
+        return [{'name': individual.user.username, 'id': individual.id} for individual in self.join_requests.all()]
 
     def resolve_shopping_list(self, info):
         return self.groupshoppingitem_set.all()

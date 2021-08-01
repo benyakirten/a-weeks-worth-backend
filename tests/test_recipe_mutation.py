@@ -130,8 +130,8 @@ class RecipeMutationTest(GraphQLTestCase):
                         'step': 'Test Step 1',
                         'order': 1
                     },
-                    { 'step': 'Test Step 2'},
-                    { 'step': 'Test Step 3'},
+                    {'step': 'Test Step 2'},
+                    {'step': 'Test Step 3'},
                     {
                         'step': 'Test Step 10',
                         'order': 10

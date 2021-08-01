@@ -51,7 +51,7 @@
             </header>
             <article>
                 <p>Please activate your account by
-                    <a href='{{ protocol }}://{{ domain }}/{{ path }}/{{ token }}'>clicking here</a>
+                    <a href='{{ FRONTEND_DOMAIN }}/account?verifyAccount={{ token }}'>clicking here</a>
                 </p>
                 <p class="small-text">
                     If there are problems with the link, the following code can be entered on A Week's Worth: {{ token }}
