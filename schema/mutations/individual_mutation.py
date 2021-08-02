@@ -31,9 +31,9 @@ class UpdateIndividual(graphene.Mutation):
 
     @classmethod
     @login_required
-    def mutate(cls, root, info, shopping_list=[], meals=[]):
+    def mutate(cls, root, info, shopping_list=None, meals=None):
         individual = info.context.user.individual
-        if shopping_list:
+        if shopping_list is not None:
             queryset = IndividualShoppingItem.objects.filter(
                 individual=individual)
             for item in queryset:
@@ -41,7 +41,7 @@ class UpdateIndividual(graphene.Mutation):
             for item in shopping_list:
                 individual.individualshoppingitem_set.create(
                     name=item.name, quantity=item.quantity, unit=item.unit)
-        if meals:
+        if meals is not None:
             queryset = IndividualMeal.objects.filter(individual=individual)
             for meal in queryset:
                 meal.delete()

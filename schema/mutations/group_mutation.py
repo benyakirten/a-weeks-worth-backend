@@ -51,7 +51,7 @@ class UpdateGroup(graphene.Mutation):
 
     @classmethod
     @login_required
-    def mutate(cls, root, info, id, name="", shopping_list=[], meals=[]):
+    def mutate(cls, root, info, id, name="", shopping_list=None, meals=None):
         try:
             group = Group.objects.get(id=id)
         except:
@@ -62,14 +62,14 @@ class UpdateGroup(graphene.Mutation):
             group.name = name
             group.save()
 
-        if shopping_list:
+        if shopping_list is not None:
             queryset = GroupShoppingItem.objects.filter(group=group)
             for item in queryset:
                 item.delete()
             for item in shopping_list:
                 group.groupshoppingitem_set.create(
                     name=item.name, quantity=item.quantity, unit=item.unit)
-        if meals:
+        if meals is not None:
             queryset = GroupMeal.objects.filter(group=group)
             for meal in queryset:
                 meal.delete()
