@@ -1,6 +1,8 @@
 import graphene
 from graphql_jwt.decorators import login_required
 
+from utils.comparison import compare_as_key
+
 from aww.models import (
     Group,
     IndividualShoppingItem,
@@ -45,6 +47,7 @@ class UpdateIndividual(graphene.Mutation):
             queryset = IndividualMeal.objects.filter(individual=individual)
             for meal in queryset:
                 meal.delete()
+            meals.sort(key=compare_as_key)
             for meal in meals:
                 if meal.recipeId and meal.text:
                     try:

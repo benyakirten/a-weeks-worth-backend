@@ -3,6 +3,8 @@ import copy
 import graphene
 from graphql_jwt.decorators import login_required
 
+from utils.comparison import compare_as_key
+
 from aww.models import (
     Individual,
     GroupShoppingItem,
@@ -73,6 +75,7 @@ class UpdateGroup(graphene.Mutation):
             queryset = GroupMeal.objects.filter(group=group)
             for meal in queryset:
                 meal.delete()
+            meals.sort(key=compare_as_key)
             for meal in meals:
                 # If there's a recipe and some text (note)
                 if meal.recipeId and meal.text:

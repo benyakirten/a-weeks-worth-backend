@@ -367,4 +367,4 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 >> 3. Current step order: 1, 2, 5 - new step inserted at step 3
 6. 7/22/2021: I forgot to set CORS headers. I used the django-cors-headers package.
 7. 7/25/2021: I added a mutation (with corresponding tests) to allow a user to update their username and email address. I also changed it so group members are now identified by their usernames, not their email addresses. After this mutation changes the user details, a new token has to be issued.
-8. 8/1/2021: Made it so blank arrays on updating individual/group deletes all previous values
+8. 8/1/2021: Made it so blank arrays on updating individual/group deletes all previous values, also that meals for the update individual/group mutations are sorted when put into the database depending on day then time, starting from monday and breakfast.
