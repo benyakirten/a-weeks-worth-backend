@@ -49,6 +49,7 @@ def url_cannot_be_changed_on_update(sender, instance, **kwargs):
 # If the order has not been set already
 @receiver(pre_save, sender=RecipeStep)
 def step_order_assignment(sender, instance, **kwargs):
+    # print(sender.objects.filter(recipe=instance.recipe))
     if not instance.order and instance.order != 0:
         existing_steps = sender.objects.filter(recipe=instance.recipe)
         if len(existing_steps) > 0:
@@ -60,7 +61,7 @@ def step_order_assignment(sender, instance, **kwargs):
                 # If there is a missing number, the order will take that position
                 # then exit the function - we have our answer
                 if cur_step_order != prev_step_order + 1:
-                    instance.order = cur_step_order - 1
+                    instance.order = prev_step_order + 1
                     return
                 # If we don't have a missing number, we move up the previous number
                 # Then continue with the next one

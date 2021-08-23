@@ -126,16 +126,21 @@ class RecipeTest(TestCase):
         """
         ham = Recipe.objects.get(name="Hamburger")
 
-        step2 = RecipeStep.objects.create(step="Test Step 2", recipe=ham)
+        step2 = RecipeStep.objects.create(step="Test Step 2", order=2, recipe=ham)
         steps = RecipeStep.objects.filter(recipe=ham)
         self.assertEqual(len(steps), 1)
-        self.assertEqual(steps[0].order, 1)
+        self.assertEqual(steps[0].order, 2)
+
+        self.assertEqual(steps[0].step, "Test Step 2")
 
         step1 = RecipeStep.objects.create(step="Test Step 1", recipe=ham)
         steps = RecipeStep.objects.filter(recipe=ham)
         self.assertEqual(len(steps), 2)
         self.assertEqual(steps[0].order, 1)
         self.assertEqual(steps[1].order, 2)
+
+        self.assertEqual(steps[0].step, "Test Step 1")
+        self.assertEqual(steps[1].step, "Test Step 2")
 
         step5 = RecipeStep.objects.create(step="Test Step 5", order=5, recipe=ham)
         step7 = RecipeStep.objects.create(step="Test Step 7", order=7, recipe=ham)
@@ -144,16 +149,32 @@ class RecipeTest(TestCase):
         self.assertEqual(steps[2].order, 5)
         self.assertEqual(steps[3].order, 7)
 
+        self.assertEqual(steps[0].step, "Test Step 1")
+        self.assertEqual(steps[1].step, "Test Step 2")
+        self.assertEqual(steps[2].step, "Test Step 5")
+        self.assertEqual(steps[3].step, "Test Step 7")
+
         step3 = RecipeStep.objects.create(step="Test Step 3", recipe=ham)
         step4 = RecipeStep.objects.create(step="Test Step 4", recipe=ham)
         step6 = RecipeStep.objects.create(step="Test Step 6", recipe=ham)
         steps = RecipeStep.objects.filter(recipe=ham)
         self.assertEqual(len(steps), 7)
+
+        self.assertEqual(steps[0].order, 1)
+        self.assertEqual(steps[1].order, 2)
         self.assertEqual(steps[2].order, 3)
         self.assertEqual(steps[3].order, 4)
         self.assertEqual(steps[4].order, 5)
         self.assertEqual(steps[5].order, 6)
         self.assertEqual(steps[6].order, 7)
+
+        self.assertEqual(steps[0].step, "Test Step 1")
+        self.assertEqual(steps[1].step, "Test Step 2")
+        self.assertEqual(steps[2].step, "Test Step 3")
+        self.assertEqual(steps[3].step, "Test Step 4")
+        self.assertEqual(steps[4].step, "Test Step 5")
+        self.assertEqual(steps[5].step, "Test Step 6")
+        self.assertEqual(steps[6].step, "Test Step 7")
 
 class GroupTest(TestCase):
     def setUp(self):

@@ -369,3 +369,4 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 7. 7/25/2021: I added a mutation (with corresponding tests) to allow a user to update their username and email address. I also changed it so group members are now identified by their usernames, not their email addresses. After this mutation changes the user details, a new token has to be issued.
 8. 8/1/2021: Made it so blank arrays on updating individual/group deletes all previous values, also that meals for the update individual/group mutations are sorted when put into the database depending on day then time, starting from monday and breakfast.
 9. 8/19/2021: Removed r2api from the dependencies. It should never have been included.
+10. 8/23/2021: Fixed an error in the order of step generation where it work backwards from a gap to fill in the steps instead of work forwards from the last entry. Tests updated to account fo this.
