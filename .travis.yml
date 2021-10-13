@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.8"
+
+install:
+  - pip install -r requirements.txt
+  - pip install .
+
+env:
+  - AM_I_RUNNING_ON_MY_HOME_COMPUTER="true"
+  - DJANGO_SECRET_KEY="testing_secret_key"
+  - DATABASE_NAME="testing_db_name"
+  - DATABASE_USER="testing_db_name"
+  - DATABASE_HOST="testing_db_host"
+  - DATABASE_PORT="testing_db_port"
+  - MY_EMAIL_ADDRESS="testing_my_email"
+  - SENDGRID_EMAIL_FROM="testing_sendgrid_email"
+  - SENDGRID_API_KEY="testing_api_key"
+
+script: python manage.py test
