@@ -2,19 +2,22 @@ language: python
 python:
   - "3.8"
 
+services:
+  - postgresql
+
 install:
   - pip install -r requirements.txt
 
+before_script:
+  - psql -c 'create database test_db'; -U postgres
+
 env:
   global:
-    - AM_I_RUNNING_ON_MY_HOME_COMPUTER="true"
-    - DJANGO_SECRET_KEY="testing_secret_key"
-    - DATABASE_NAME="testing_db_name"
-    - DATABASE_USER="testing_db_name"
-    - DATABASE_HOST="testing_db_host"
-    - DATABASE_PORT="testing_db_port"
-    - MY_EMAIL_ADDRESS="testing_my_email"
-    - SENDGRID_EMAIL_FROM="testing_sendgrid_email"
-    - SENDGRID_API_KEY="testing_api_key"
+    - DJANGO_SECRET_KEY=test_secret_key
+    - DATABASE_URL = postgres://postgres@localhost/test_db
+    - MY_EMAIL_ADDRESS=testing_my_email
+    - SENDGRID_EMAIL_FROM=testing_sendgrid_email
+    - SENDGRID_API_KEY=testing_api_key
+
 
 script: python manage.py test
