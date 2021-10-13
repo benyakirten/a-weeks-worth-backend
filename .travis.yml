@@ -14,7 +14,12 @@ before_script:
 env:
   global:
     - DJANGO_SECRET_KEY=test_secret_key
-    - DATABASE_URL = postgres://postgres@localhost/test_db
+    - AM_I_RUNNING_ON_MY_HOME_COMPUTER="true"
+    - DATABASE_NAME=test_db
+    - DATABASE_USER=postgres
+    - DATABASE_PASSWORD=''
+    - DATABASE_HOST=localhost
+    - DATABASE_PORT=5432
     - MY_EMAIL_ADDRESS=testing_my_email
     - SENDGRID_EMAIL_FROM=testing_sendgrid_email
     - SENDGRID_API_KEY=testing_api_key
