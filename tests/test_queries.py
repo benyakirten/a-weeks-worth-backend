@@ -455,7 +455,7 @@ class QueriesTest(GraphQLTestCase):
                 'text': meal.text
             } for meal in self.group.groupmeal_set.all()
         ]
-        members_expected = [member.user.email for member in self.group.members.all()]
+        members_expected = [member.user.username for member in self.group.members.all()]
         
         self.assertListEqual(data['shoppingList'], shopping_list_expected)
         self.assertListEqual(data['meals'], meals_expected)

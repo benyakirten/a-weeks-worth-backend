@@ -1,3 +1,5 @@
+[![Build Status](https://app.travis-ci.com/benyakirten/a-weeks-worth-backend.svg?branch=main)](https://app.travis-ci.com/benyakirten/a-weeks-worth-backend)
+
 # Table of Contents
 1. [What is this?](#what-is-this?)
 2. [How to run the repository](#how-to-run-the-repository)
@@ -26,16 +28,28 @@ Requests to join a group (those made for the individual, those received for the 
 2. Configure the following environment variables:
 > For the secret key:
 > 1. DJANGO_SECRET_KEY
-> For the database ([Read the docs](https://docs.djangoproject.com/en/3.2/ref/databases/))
-> 1. DATABASE_NAME
-> 2. DATABASE_USER
-> 3. DATABASE_HOST
-> 4. DATABASE_PORT
+> 2. MY_EMAIL_ADDRESS (if you are allowing the messageMe mutation, which sends an email to this email address, some email integration will need to be configured)
+> If you are running on your home environment and want to use your own database([Read the docs](https://docs.djangoproject.com/en/3.2/ref/databases/)):
+> 1. AM_I_RUNNING_ON_MY_HOME_COMPUTER="true"
+> 2. DATABASE_NAME
+> 3. DATABASE_USER
+> 4. DATABASE_HOST
+> 5. DATABASE_PORT
+> If you are running a Heroku integrated Postgres database (currently in use if AM_I_RUNNING_ON_MY_HOME_COMPUTER is not set/does not equal "true"):
+> 1. DATABASE_URL
+> If you are using the currently configured sendgrid integration:
+> 1. SENDGRID_API_KEY
+> 2. SENDGRID_EMAIL_FROM
 > Note: I used Postgres for the database. Django config can take a variety of databases, including MongoDB. The Python packages/configuration for each of them can be quite different.
 > Note: There's an email backend too. I used SendGrid, and any sort of implementation will take a sever amount of customization so I'm not going to include the details on this page. I will not include the SendGrid package, either, on the list to install below, but it can be found in the requirements.txt file.
 > Note: Read the docs for django-graphql-auth for details about how to customize email templates. It's not particularly hard, but keep in mind that email supports little html/css, especially the cool stuff (for a good reason).
 > 5. MY_EMAIL_ADDRESS if you want to use the messageMe mutation (cf mutations)
-3. Open a terminal in the main folder and install the following dependencies:
+
+3. Open a terminal in the main folder and run:
+    pip install -r requirements.txt
+
+Or, individually, install these dependencies:
+
 ```
 django
 psycopg2
@@ -370,3 +384,4 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 8. 8/1/2021: Made it so blank arrays on updating individual/group deletes all previous values, also that meals for the update individual/group mutations are sorted when put into the database depending on day then time, starting from monday and breakfast.
 9. 8/19/2021: Removed r2api from the dependencies. It should never have been included.
 10. 8/23/2021: Fixed an error in the order of step generation where it work backwards from a gap to fill in the steps instead of work forwards from the last entry. Tests updated to account fo this.
+11. 10/13/2021: Added Travis for CI and fixed the queries test. I didn't dockerize this because it is integrated with a Heroku Postgres instance.
