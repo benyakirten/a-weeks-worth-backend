@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/benyakirten/a-weeks-worth-backend.svg?branch=main)](https://app.travis-ci.com/benyakirten/a-weeks-worth-backend)
+[![Unit Test](https://github.com/benyakirten/a-weeks-worth-backend/actions/workflows/unit_test.yml/badge.svg)](https://github.com/benyakirten/a-weeks-worth-backend/actions/workflows/unit_test.yml)
 
 # Table of Contents
 1. [What is this?](#what-is-this?)
@@ -362,7 +362,6 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 
 ## Planned Changes:
 * Change types to nodes with Relay
-* Sort new meals for individuals/groups based on day then mealtime
 
 ## Changelog:
 1. 7/11/2021: Initial version of the backend
@@ -385,3 +384,4 @@ Note: all mutations require the user to log in, get a JWT then attach said to an
 9. 8/19/2021: Removed r2api from the dependencies. It should never have been included.
 10. 8/23/2021: Fixed an error in the order of step generation where it work backwards from a gap to fill in the steps instead of work forwards from the last entry. Tests updated to account fo this.
 11. 10/13/2021: Added Travis for CI and fixed the queries test. I didn't dockerize this because it is integrated with a Heroku Postgres instance.
+12. 12/07/2021: Changed from Travis to GitHub Actions, also changed badge
